@@ -3,8 +3,7 @@
 , libshout, cairo, gdk-pixbuf, aalib, libcaca, libsoup, libpulseaudio, libintl
 , darwin, lame, mpg123, twolame, gtkSupport ? false, gtk3 ? null
 , raspiCameraSupport ? false, libraspberrypi , enableJack ? true, libjack2
-, libXdamage, libXext, libXfixes, ncurses, wayland, wayland-protocols, xorg
-, libgudev, wavpack, fetchFromGitHub, gst_all_1, cmake }:
+, libXdamage, libXext, libXfixes, libgudev, wavpack, fetchFromGitHub, gst_all_1, cmake }:
 
 assert gtkSupport -> gtk3 != null;
 assert raspiCameraSupport
@@ -24,8 +23,7 @@ in stdenv.mkDerivation rec {
     sha256 = "sha256-/g1iLKPOVZNQbrxiUXKwB6P8f+sRMWJuE4PNEo3BmTw=";
   };
 
-  nativeBuildInputs = [ pkg-config python3 meson ninja gettext nasm ]
-    ++ optionals stdenv.isLinux [ wayland-protocols ];
+  nativeBuildInputs = [ pkg-config python3 meson ninja gettext nasm ];
 
   buildInputs = [
       gst_all_1.gstreamer
@@ -52,9 +50,6 @@ in stdenv.mkDerivation rec {
     libXdamage
     libXext
     libXfixes
-    ncurses
-    xorg.libXfixes
-    xorg.libXdamage
     wavpack
   ] ++ optionals raspiCameraSupport [ libraspberrypi ] ++ optionals gtkSupport [
     # for gtksink
@@ -66,7 +61,6 @@ in stdenv.mkDerivation rec {
       libavc1394
       libiec61883
       libgudev
-      wayland
     ] ++ optionals enableJack [ libjack2 ];
 
   mesonFlags = [
