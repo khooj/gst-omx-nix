@@ -1,9 +1,8 @@
 { lib, stdenv, fetchurl, meson, nasm, ninja, pkg-config, python3, orc, bzip2
 , gettext, libv4l, libdv, libavc1394, libiec61883, libvpx, speex, flac, taglib
 , libshout, cairo, gdk-pixbuf, aalib, libcaca, libsoup, libpulseaudio, libintl
-, darwin, lame, mpg123, twolame, libraspberrypi
-, libXdamage, libXext, libXfixes, libgudev, wavpack
-, fetchFromGitHub, gst_all_1, cmake }:
+, darwin, lame, mpg123, twolame, libraspberrypi, libXdamage, libXext, libXfixes
+, libgudev, wavpack, fetchFromGitHub, gst_all_1, cmake }:
 
 let inherit (lib) optionals;
 in stdenv.mkDerivation rec {
@@ -26,34 +25,6 @@ in stdenv.mkDerivation rec {
     gst_all_1.gst-plugins-base
     cmake
     libraspberrypi
-    orc
-    bzip2
-    libdv
-    libvpx
-    speex
-    flac
-    taglib
-    cairo
-    gdk-pixbuf
-    aalib
-    libcaca
-    libsoup
-    libshout
-    lame
-    mpg123
-    twolame
-    libintl
-    libXdamage
-    libXext
-    libXfixes
-    wavpack
-  ] ++ optionals stdenv.isDarwin [ darwin.apple_sdk.frameworks.Cocoa ]
-    ++ optionals stdenv.isLinux [
-      libv4l
-      libpulseaudio
-      libavc1394
-      libiec61883
-      libgudev
     ];
 
   mesonFlags = [
@@ -72,7 +43,7 @@ in stdenv.mkDerivation rec {
     description = "GStreamer OpenMax API Wrapper";
     homepage = "https://gstreamer.freedesktop.org";
     license = licenses.lgpl2Plus;
-    platforms = platforms.linux;
+    platforms = [ "aarch64-linux" ];
     maintainers = with maintainers; [ ];
   };
 }
