@@ -1,13 +1,9 @@
 { lib, stdenv, fetchurl, meson, nasm, ninja, pkg-config, python3, orc, bzip2
 , gettext, libv4l, libdv, libavc1394, libiec61883, libvpx, speex, flac, taglib
 , libshout, cairo, gdk-pixbuf, aalib, libcaca, libsoup, libpulseaudio, libintl
-, darwin, lame, mpg123, twolame, gtkSupport ? false, gtk3 ? null
-, raspiCameraSupport ? false, libraspberrypi , enableJack ? true, libjack2
-, libXdamage, libXext, libXfixes, libgudev, wavpack, fetchFromGitHub, gst_all_1, cmake }:
-
-assert gtkSupport -> gtk3 != null;
-assert raspiCameraSupport
-  -> ((libraspberrypi != null) && stdenv.isLinux && stdenv.isAarch64);
+, darwin, lame, mpg123, twolame, libraspberrypi
+, libXdamage, libXext, libXfixes, libgudev, wavpack
+, fetchFromGitHub, gst_all_1, cmake }:
 
 let inherit (lib) optionals;
 in stdenv.mkDerivation rec {
@@ -26,10 +22,10 @@ in stdenv.mkDerivation rec {
   nativeBuildInputs = [ pkg-config python3 meson ninja gettext nasm ];
 
   buildInputs = [
-      gst_all_1.gstreamer
-      gst_all_1.gst-plugins-base
-      cmake
-      libraspberrypi
+    gst_all_1.gstreamer
+    gst_all_1.gst-plugins-base
+    cmake
+    libraspberrypi
     orc
     bzip2
     libdv
@@ -51,9 +47,6 @@ in stdenv.mkDerivation rec {
     libXext
     libXfixes
     wavpack
-  ] ++ optionals raspiCameraSupport [ libraspberrypi ] ++ optionals gtkSupport [
-    # for gtksink
-    gtk3
   ] ++ optionals stdenv.isDarwin [ darwin.apple_sdk.frameworks.Cocoa ]
     ++ optionals stdenv.isLinux [
       libv4l
@@ -61,7 +54,7 @@ in stdenv.mkDerivation rec {
       libavc1394
       libiec61883
       libgudev
-    ] ++ optionals enableJack [ libjack2 ];
+    ];
 
   mesonFlags = [
     "-Dexamples=disabled"
