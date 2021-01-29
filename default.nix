@@ -1,8 +1,5 @@
-{ lib, stdenv, fetchurl, meson, nasm, ninja, pkg-config, python3, orc, bzip2
-, gettext, libv4l, libdv, libavc1394, libiec61883, libvpx, speex, flac, taglib
-, libshout, cairo, gdk-pixbuf, aalib, libcaca, libsoup, libpulseaudio, libintl
-, darwin, lame, mpg123, twolame, libraspberrypi, libXdamage, libXext, libXfixes
-, libgudev, wavpack, fetchFromGitHub, gst_all_1, cmake }:
+{ lib, stdenv, fetchurl, meson, ninja, pkg-config, python3, libraspberrypi
+, fetchFromGitHub, gst_all_1, cmake }:
 
 let inherit (lib) optionals;
 in stdenv.mkDerivation rec {
@@ -18,14 +15,10 @@ in stdenv.mkDerivation rec {
     sha256 = "sha256-/g1iLKPOVZNQbrxiUXKwB6P8f+sRMWJuE4PNEo3BmTw=";
   };
 
-  nativeBuildInputs = [ pkg-config python3 meson ninja gettext nasm ];
+  nativeBuildInputs = [ pkg-config python3 meson ninja ];
 
-  buildInputs = [
-    gst_all_1.gstreamer
-    gst_all_1.gst-plugins-base
-    cmake
-    libraspberrypi
-    ];
+  buildInputs =
+    [ gst_all_1.gstreamer gst_all_1.gst-plugins-base cmake libraspberrypi ];
 
   mesonFlags = [
     "-Dexamples=disabled"

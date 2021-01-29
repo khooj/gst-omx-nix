@@ -14,5 +14,8 @@
     };
   in {
     defaultPackage = pkgs.callPackage ./default.nix {};
+    overlay = final: prev: {
+      gst-omx = final.callPackage ./default.nix {};
+    };
   });
 }
