@@ -20,6 +20,8 @@ in stdenv.mkDerivation rec {
   buildInputs =
     [ gst_all_1.gstreamer gst_all_1.gst-plugins-base cmake libraspberrypi ];
 
+  propogatedBuildInputs = [ libraspberrypi ];
+
   mesonFlags = [
     "-Dexamples=disabled"
     "-Ddoc=disabled"
