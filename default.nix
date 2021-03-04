@@ -1,5 +1,5 @@
 { lib, stdenv, fetchurl, meson, ninja, pkg-config, python3, libraspberrypi
-, fetchFromGitHub, gst_all_1, cmake }:
+, fetchFromGitHub, gst_all_1, cmake, target ? "rpi" }:
 
 let inherit (lib) optionals;
 in stdenv.mkDerivation rec {
@@ -26,7 +26,7 @@ in stdenv.mkDerivation rec {
     "-Dexamples=disabled"
     "-Ddoc=disabled"
     "-Dheader_path=${libraspberrypi}/include/IL"
-    "-Dtarget=rpi"
+    "-Dtarget=${target}"
   ];
 
   postPatch = ''
